@@ -1,3 +1,6 @@
 function draw() {
-    rect(0, 0, 10, 20)
+    if(isReset)
+        reset()
+
+    ellipse(0, 0, 100)
 }

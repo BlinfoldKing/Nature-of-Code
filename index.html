@@ -10,57 +10,132 @@
 </head>
 
 <style>
+    body,
+    html {
+        background-color: #eee;
+        height: 100%;
+        overflow: auto;
+    }
+
+    .container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #apps {
+        background-color: #fff;
+        width: 50%;
+        height: 100%;
+        padding: 10px;
+    }
+
+    #cnv {
+        width: 646px;
+        height: 486px;
+        border: solid black 3px;
+        margin-left: inherit;
+        margin-right: inherit;
+
+    }
+
+    .white-text {
+        color: #fff;
+    }
+
+    #title {
+        background-color: #333;
+    }
+
 </style>
 
 <body>
-    <ul>
-        <li class="button is-primary" onclick="changeChapter(1)" id="chp1">Chapter 1</li>
-        <li class="button is-primary" onclick="changeChapter(2)" id="chp2">Chapter 2</li>
-        <li class="button is-primary" onclick="changeChapter(3)" id="chp3">Chapter 3</li>
-        <li class="button is-primary" onclick="changeChapter(4)" id="chp4">Chapter 4</li>
-        <li class="button is-primary" onclick="changeChapter(5)" id="chp5">Chapter 5</li>
-        <li class="button is-primary" onclick="changeChapter(6)" id="chp6">Chapter 6</li>
-        <li class="button is-primary" onclick="changeChapter(7)" id="chp7">Chapter 7</li>
-        <li class="button is-primary" onclick="changeChapter(8)" id="chp8">Chapter 8</li>
-        <li class="button is-primary" onclick="changeChapter(9)" id="chp9">Chapter 9</li>
-        <li class="button is-primary" onclick="changeChapter(10)" id="chp10">Chapter 10</li>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"></script>
+    <nav class="navbar is-black">
 
-        <div id="sketches">
-            <script src="./sketches/chapter1/chp1.js"></script>
+        <a class="navbar-item white-text" href="https://blinfoldking.github.io">{ G }</a>
+        <div class="navbar-item white-text"> Nature of Code : </div>
+
+
+        <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link  white-text ">
+                <div class="is-danger button" id="chp-nav"> Chapter 1 </div>
+            </a>
+
+            <div class="navbar-dropdown">
+                <a class="navbar-item" onclick="changeChapter(1)" id="chp1">Chapter 1</a>
+                <a class="navbar-item" onclick="changeChapter(2)" id="chp2">Chapter 2</a>
+                <a class="navbar-item" onclick="changeChapter(3)" id="chp3">Chapter 3</a>
+                <a class="navbar-item" onclick="changeChapter(4)" id="chp4">Chapter 4</a>
+                <a class="navbar-item" onclick="changeChapter(5)" id="chp5">Chapter 5</a>
+                <a class="navbar-item" onclick="changeChapter(6)" id="chp6">Chapter 6</a>
+                <a class="navbar-item" onclick="changeChapter(7)" id="chp7">Chapter 7</a>
+                <a class="navbar-item" onclick="changeChapter(8)" id="chp8">Chapter 8</a>
+                <a class="navbar-item" onclick="changeChapter(9)" id="chp9">Chapter 9</a>
+                <a class="navbar-item" onclick="changeChapter(10)" id="chp10">Chapter 10</a>
+            </div>
         </div>
+    </nav>
 
-        <script>
-            changeChapter = (chp) => {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"></script>
 
-                reset()
-
-
-                let s = document.createElement('script')
-                s.type = 'text/javascript'
-                s.src = `./sketches/chapter${chp}/chp${chp}.js`
-
-                console.log(chp)
-
-                document.getElementById('sketches').innerHTML = ""
-                document.getElementById('sketches').appendChild(s)
+    <div id="sketches">
+        <script src="./sketches/chapter1/chp1.js"></script>
+    </div>
 
 
-            }
 
-            function reset() {
-                clear()
-                createCanvas(640, 480)
-                background(200)
-            }
+    <div class="container">
+
+        <div id="apps">
+
+            <div id="cnv"></div>
+            <span id="title"></span>
+            <br>
+            <p id="body"></p>
+
+        </div>
+    </div>
+
+    <script>
+        var isReset = false
+
+        changeChapter = (chp) => {
+
+            isReset = true
 
 
-            function setup() {
-                reset()
-            }
-            
-        </script>
+            let s = document.createElement('script')
+            s.type = 'text/javascript'
+            s.src = `./sketches/chapter${chp}/chp${chp}.js`
+
+            console.log(chp)
+
+            document.getElementById('sketches').innerHTML = ""
+            document.getElementById('sketches').appendChild(s)
+            document.getElementById('chp-nav').innerHTML = "Chapter " + chp
+            document.getElementById('title').innerHTML = desc.chapters[chp - 1].title.toUpperCase()
+            document.getElementById('body').innerHTML = desc.chapters[chp - 1].body
+
+        }
+
+
+        let desc = {}
+
+        function reset() {
+            clear()
+            let canvas = createCanvas(640, 480)
+            canvas.parent('cnv')
+            background(200)
+            isReset = false
+        }
+
+
+        function setup() {
+            desc = loadJSON('description.json')
+            reset()
+        }
+    </script>
 
 </body>
 

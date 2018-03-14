@@ -1,3 +1,4 @@
 function draw() {
-    rect(0, 0, 100, 20)
+    if(isReset)
+        reset()
 }
